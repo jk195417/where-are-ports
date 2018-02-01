@@ -1,5 +1,9 @@
 {
   "name": "where-are-ports",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "4",
+    "jquery": "3",
+    "popper.js": "^1.12.9"
+  }
 }
