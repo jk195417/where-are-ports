@@ -1,0 +1,22 @@
+<p>
+  <strong>Latitude:</strong>
+  <%= @anchor.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @anchor.longitude %>
+</p>
+
+<p>
+  <strong>Elevation:</strong>
+  <%= @anchor.elevation %>
+</p>
+
+<p>
+  <strong>What 3 words:</strong>
+  <%= @anchor.what_3_words %>
+</p>
+
+<%= link_to 'Edit', edit_anchor_path(@anchor), class: 'btn btn-primary' %>
+<%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>

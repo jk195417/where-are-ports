@@ -1,0 +1,10 @@
+'zh-TW':
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: '電子信箱不能為空'
+            password:
+              blank: '密碼不能為空'

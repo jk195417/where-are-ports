@@ -1,0 +1,10 @@
+'zh-TW':
+  activerecord:
+    errors:
+      models:
+        anchor:
+          attributes:
+            latitude:
+              blank: 'latitude不能為空'
+            longitude:
+              blank: 'longitude不能為空'
