@@ -3,13 +3,15 @@
   <head>
     <title>WhereArePorts</title>
     <%= csrf_meta_tags %>
-
+    <%= favicon_link_tag 'port.png', type: 'image/png' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <%= flash_message %>
-    <%= yield %>
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
   </body>
 </html>
