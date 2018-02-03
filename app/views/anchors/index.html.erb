@@ -1,6 +1,8 @@
 <div class="d-flex justify-content-center align-items-center">
   <h1>Anchors <span class="small text-muted">total : <%= @anchors_count %></span></h1>
+  <% if can? :manage, :anchor %>
   <div class="ml-auto"><%= link_to 'New Anchor', new_anchor_path, class: 'btn btn-primary' %></div>
+  <% end %>
 </div>
 
 <%= render 'table', anchors: @anchors %>

@@ -1,40 +1,44 @@
-<div class="d-flex justify-content-center align-items-center">
-  <h1>Anchor</h1>
-  <div class="ml-auto">
-    <%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center">
+    <h1>Anchor</h1>
+    <div class="ml-auto">
+      <% if can? :manage, :anchor %>
+      <%= link_to 'Edit', edit_anchor_path(@anchor), class: 'btn btn-primary' %>
+      <% end %>
+      <%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+
+  <div class="card my-2">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex">
+        <strong>ISO3:</strong>
+        <span class="ml-auto"><%= @anchor.iso3 %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Latitude:</strong>
+        <span class="ml-auto"><%= @anchor.latitude %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Longitude:</strong>
+        <span class="ml-auto"><%= @anchor.longitude %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Elevation:</strong>
+        <span class="ml-auto"><%= @anchor.elevation %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>What 3 words:</strong>
+        <span class="ml-auto"><%= link_to @anchor.what_3_words, @anchor.what_3_words_url, target: :_blank %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Label:</strong>
+        <span class="ml-auto"><%= @anchor.label %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Sublabel:</strong>
+        <span class="ml-auto"><%= @anchor.sublabel %></span>
+      </li>
+    </ul>
   </div>
 </div>
-
-<div class="card my-2">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex">
-      <strong>ISO3:</strong>
-      <span class="ml-auto"><%= @anchor.iso3 %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Latitude:</strong>
-      <span class="ml-auto"><%= @anchor.latitude %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Longitude:</strong>
-      <span class="ml-auto"><%= @anchor.longitude %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Elevation:</strong>
-      <span class="ml-auto"><%= @anchor.elevation %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>What 3 words:</strong>
-      <span class="ml-auto"><%= @anchor.what_3_words %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Label:</strong>
-      <span class="ml-auto"><%= @anchor.label %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Sublabel:</strong>
-      <span class="ml-auto"><%= @anchor.sublabel %></span>
-    </li>
-  </ul>
-</div>
-<%= link_to 'Edit', edit_anchor_path(@anchor), class: 'btn btn-primary' %>

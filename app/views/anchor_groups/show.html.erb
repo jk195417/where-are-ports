@@ -1,49 +1,62 @@
-<div class="d-flex justify-content-center align-items-center">
-  <h1>Anchor Group</h1>
-  <div class="ml-auto">
-    <%= link_to 'Edit', edit_anchor_group_path(@anchor_group), class: 'btn btn-primary' %>
-    <%= link_to 'Back', anchor_groups_path, class: 'btn btn-secondary' %>
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center">
+    <h1>Anchor Group</h1>
+    <div class="ml-auto">
+      <%= link_to 'Edit', edit_anchor_group_path(@anchor_group), class: 'btn btn-primary' if can? :manage, :anchor_group %>
+      <%= link_to 'Back', anchor_groups_path, class: 'btn btn-secondary' %>
+    </div>
   </div>
-</div>
-<div class="card my-2">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex">
-      <strong>ISO3:</strong>
-      <span class="ml-auto"><%= @anchor_group.iso3 %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Latitude:</strong>
-      <span class="ml-auto"><%= @anchor_group.latitude %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Longitude:</strong>
-      <span class="ml-auto"><%= @anchor_group.longitude %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Elevation:</strong>
-      <span class="ml-auto"><%= @anchor_group.elevation %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>What 3 words:</strong>
-      <span class="ml-auto"><%= @anchor_group.what_3_words %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Label:</strong>
-      <span class="ml-auto"><%= @anchor_group.label %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Sublabel:</strong>
-      <span class="ml-auto"><%= @anchor_group.sublabel %></span>
-    </li>
-    <li class="list-group-item d-flex">
-      <strong>Old name</strong>
-      <span class="ml-auto"><%= @anchor_group.old_name %></span>
-    </li>
-  </ul>
-  <div class="card-body">
-    <h2>Anchors List <span class="small text-muted">total : <%= @anchor_group.anchors_count %></span></h2>
-    <div class="card my-2">
-      <%= render 'anchors/table', anchors: @anchors_page %>
+  <div class="card my-2">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex">
+        <strong>ISO3:</strong>
+        <span class="ml-auto"><%= @anchor_group.iso3 %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Latitude:</strong>
+        <span class="ml-auto"><%= @anchor_group.latitude %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Longitude:</strong>
+        <span class="ml-auto"><%= @anchor_group.longitude %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Elevation:</strong>
+        <span class="ml-auto"><%= @anchor_group.elevation %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>What 3 words:</strong>
+        <span class="ml-auto"><%= link_to @anchor_group.what_3_words, @anchor_group.what_3_words_url, target: :_blank %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Label:</strong>
+        <span class="ml-auto"><%= @anchor_group.label %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Sublabel:</strong>
+        <span class="ml-auto"><%= @anchor_group.sublabel %></span>
+      </li>
+      <li class="list-group-item d-flex">
+        <strong>Old name</strong>
+        <span class="ml-auto"><%= @anchor_group.old_name %></span>
+      </li>
+    </ul>
+    <div class="card-body">
+      <h2>Anchors List <span class="small text-muted">total : <%= @anchor_group.anchors_count %></span></h2>
+      <div class="card my-2">
+        <%= render 'anchors/table', anchors: @anchors_page %>
+      </div>
+    </div>
+    <div class="card-body">
+      <h2>Map</h2>
+      <div class="card my-2">
+        <div class="card-body">
+          <%= render 'anchors/map', anchors: @anchor_group.anchors, is_anchor: true %>
+        </div>
+        <script type="text/javascript">
+          autoZoom()
+        </script>
+      </div>
     </div>
   </div>
 </div>

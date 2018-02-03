@@ -1,4 +1,5 @@
 class AnchorGroupsController < ApplicationController
+  authorize_resource class: false
   before_action :set_anchor_group, only: %i[show edit update destroy]
 
   def index
