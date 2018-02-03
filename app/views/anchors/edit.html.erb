@@ -1,6 +1,8 @@
-<h1>Editing Anchor</h1>
-
+<div class="d-flex justify-content-center align-items-center">
+  <h1>Editing Anchor</h1>
+  <div class="ml-auto">
+    <%= link_to 'Show', @anchor, class: 'btn btn-info' %>
+    <%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
 <%= render 'form', anchor: @anchor %>
-
-<%= link_to 'Show', @anchor, class: 'btn btn-info' %>
-<%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>

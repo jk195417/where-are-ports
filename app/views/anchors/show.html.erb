@@ -1,22 +1,28 @@
-<p>
-  <strong>Latitude:</strong>
-  <%= @anchor.latitude %>
-</p>
+<div class="d-flex justify-content-center align-items-center">
+  <h1>Anchor</h1>
+  <div class="ml-auto">
+    <%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
 
-<p>
-  <strong>Longitude:</strong>
-  <%= @anchor.longitude %>
-</p>
-
-<p>
-  <strong>Elevation:</strong>
-  <%= @anchor.elevation %>
-</p>
-
-<p>
-  <strong>What 3 words:</strong>
-  <%= @anchor.what_3_words %>
-</p>
-
+<div class="card my-2">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex">
+      <strong>Latitude:</strong>
+      <span class="ml-auto"><%= @anchor.latitude %></span>
+    </li>
+    <li class="list-group-item d-flex">
+      <strong>Longitude:</strong>
+      <span class="ml-auto"><%= @anchor.longitude %></span>
+    </li>
+    <li class="list-group-item d-flex">
+      <strong>Elevation:</strong>
+      <span class="ml-auto"><%= @anchor.elevation %></span>
+    </li>
+    <li class="list-group-item d-flex">
+      <strong>What 3 words:</strong>
+      <span class="ml-auto"><%= @anchor.what_3_words %></span>
+    </li>
+  </ul>
+</div>
 <%= link_to 'Edit', edit_anchor_path(@anchor), class: 'btn btn-primary' %>
-<%= link_to 'Back', anchors_path, class: 'btn btn-secondary' %>

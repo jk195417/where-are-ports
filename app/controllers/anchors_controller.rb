@@ -2,7 +2,8 @@ class AnchorsController < ApplicationController
   before_action :set_anchor, only: %i[show edit update destroy]
 
   def index
-    @anchors = Anchor.all
+    @anchors = Anchor.all.order(:id).page(params[:page])
+    @anchors_count = Anchor.count
   end
 
   def show; end
