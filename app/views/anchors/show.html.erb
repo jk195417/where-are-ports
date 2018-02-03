@@ -8,6 +8,10 @@
 <div class="card my-2">
   <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex">
+      <strong>ISO3:</strong>
+      <span class="ml-auto"><%= @anchor.iso3 %></span>
+    </li>
+    <li class="list-group-item d-flex">
       <strong>Latitude:</strong>
       <span class="ml-auto"><%= @anchor.latitude %></span>
     </li>
@@ -22,6 +26,14 @@
     <li class="list-group-item d-flex">
       <strong>What 3 words:</strong>
       <span class="ml-auto"><%= @anchor.what_3_words %></span>
+    </li>
+    <li class="list-group-item d-flex">
+      <strong>Label:</strong>
+      <span class="ml-auto"><%= @anchor.label %></span>
+    </li>
+    <li class="list-group-item d-flex">
+      <strong>Sublabel:</strong>
+      <span class="ml-auto"><%= @anchor.sublabel %></span>
     </li>
   </ul>
 </div>
