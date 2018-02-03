@@ -1,5 +1,127 @@
-<div class="d-flex justify-content-center align-items-center align-content-center vh-100 flex-wrap">
-  <%= image_tag 'port.png', class: 'mr-2' %><h1>Where are ports</h1>
-  <span class="w-100"></span>
-  <%= link_to 'Enter', anchor_groups_path, class: "h1 mt-5" %>
+<div class="container mt-2">
+  <div class="embed-responsive embed-responsive-21by9">
+    <div id="earth" class="embed-responsive-item"></div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center align-content-center flex-wrap mt-2">
+    <h1 class="text-center"><%= image_tag 'port.png', class: 'mr-2' %>All the ports on Earth</h1>
+    <span class="w-100"></span>
+    <%= link_to 'Solutions', solutions_path, class: "h1 mt-2 text-center" %>
+    <%= link_to 'Map', map_path, class: "h1 mt-2 ml-5 text-center" %>
+  </div>
 </div>
+
+
+
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script type="text/javascript">
+  var geolocation = false;
+  if ("geolocation" in navigator) {
+    /* geolocation is available */
+    geolocation = true;
+  } else {
+    /* geolocation IS NOT available */
+  }
+  var dom = document.getElementById("earth");
+  var myChart = echarts.init(dom);
+  var app = {};
+  var g_data = <%= sanitize @anchor_groups.to_json %>
+
+    g_data = g_data.map(d => {
+      d['value'] = [d.longitude, d.latitude, d.elevation+3000 ];
+      return d;
+    });
+
+  option = null;
+  option = {
+    globe: {
+      globeRadius: 90,
+      globeOuterRadius: 100,
+      baseTexture: '<%= image_url 'world.topo.bathy.200401.jpg' %>',
+      displacementTexture: '<%= image_url 'world.topo.bathy.200401.jpg' %>',
+      displacementScale: 0.01,
+      displacementQuality: 'ultra', //'low',
+      shading: 'color', //'realistic',
+      realisticMaterial: {
+        roughness: 0.8,
+        metalness: 0
+      },
+      postEffect: {
+        enable: true
+      },
+      light: {
+        main: {
+          intensity: 5,
+          shadow: true
+        },
+        ambientCubemap: {
+          //texture: 'res/pisa.hdr',
+          diffuseIntensity: 0.2
+        }
+      },
+      viewControl: {
+        autoRotate: true //false
+      }
+    },
+    series: {
+      type: 'scatter3D',
+      coordinateSystem: 'globe',
+      symbol: 'path://M 12.971 352 h 32.394 C 67.172 454.735 181.944 512 288 512 c 106.229 0 220.853 -57.38 242.635 -160 h 32.394 c 10.691 0 16.045 -12.926 8.485 -20.485 l -67.029 -67.029 c -4.686 -4.686 -12.284 -4.686 -16.971 0 l -67.029 67.029 c -7.56 7.56 -2.206 20.485 8.485 20.485 h 35.146 c -20.29 54.317 -84.963 86.588 -144.117 94.015 V 256 h 52 c 6.627 0 12 -5.373 12 -12 v -40 c 0 -6.627 -5.373 -12 -12 -12 h -52 v -5.47 c 37.281 -13.178 63.995 -48.725 64 -90.518 C 384.005 43.772 341.605 0.738 289.37 0.01 C 235.723 -0.739 192 42.525 192 96 c 0 41.798 26.716 77.35 64 90.53 V 192 h -52 c -6.627 0 -12 5.373 -12 12 v 40 c 0 6.627 5.373 12 12 12 h 52 v 190.015 c -58.936 -7.399 -123.82 -39.679 -144.117 -94.015 h 35.146 c 10.691 0 16.045 -12.926 8.485 -20.485 l -67.029 -67.029 c -4.686 -4.686 -12.284 -4.686 -16.971 0 L 4.485 331.515 C -3.074 339.074 2.28 352 12.971 352 Z M 288 64 c 17.645 0 32 14.355 32 32 s -14.355 32 -32 32 s -32 -14.355 -32 -32 s 14.355 -32 32 -32 Z',
+      symbolSize: 30,
+      label: {
+        formatter: (obj) => `
+        country : ${obj.data.iso3}\t
+        location : ${obj.data.latitude}, ${obj.data.longitude}\t
+        elevation : ${obj.data.elevation}\t
+        what 3 words : ${obj.data.what_3_words}\t
+        `
+      },
+      itemStyle: {
+        color: '#F5CD05',
+        opacity: 1,
+        borderWidth: 1,
+        borderColor: '#000000'
+      },
+      data: g_data
+    }
+  };
+
+  if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+  }
+
+  myChart.on('click', (anchor) => {window.location = `<%= anchor_groups_url %>/${anchor.data.id}`});
+
+  if (geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lat = position.coords.latitude,
+        lng = position.coords.longitude;
+      //console.log("my pos",lng, lat);
+      var my_pos = {
+        name: "my pos",
+        value: [lng, lat, 0],
+        symbolSize: 20,
+        label: {
+          formatter: "My position: {c}"
+        },
+        itemStyle: {
+          color: 'rgb(150, 50, 50)',
+          //opacity: 1
+        }
+      }
+      var data = myChart.getOption()["series"][0]["data"];
+      data.push(my_pos);
+      myChart.setOption({
+        series: {
+          data: data
+        }
+      })
+    });
+  }
+</script>
