@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="embed-responsive embed-responsive-16by9">
+    <div id="map" class="embed-responsive-item"></div>
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['google_map_key'] %>"></script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script type="text/javascript">
+  let anchors = <%= sanitize anchors.to_json %>
+  let map, bounds, marker, markerCluster, infoWindow
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 3,
+      center: {lat: 0, lng: 0}
+    })
+    bounds = new google.maps.LatLngBounds()
+    markers = anchors.map((a,i) => {
+      let location = new google.maps.LatLng(a.latitude, a.longitude)
+      let marker = new google.maps.Marker({
+        position: location,
+        icon: '<%= sanitize image_url 'anchor.png' %>',
+        id: a.id,
+        lat: a.latitude,
+        lng: a.longitude,
+        what_3_words: a.what_3_words,
+        w3w_url: `https://map.what3words.com/${a.latitude},${a.longitude}`,
+        gmap_url: `https://www.google.com/maps/search/${a.latitude},${a.longitude}`
+      })
+      bounds.extend(location)
+      return marker
+    })
+    markerCluster = new MarkerClusterer(map, markers, {
+      imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    })
+    infoWindow = new google.maps.InfoWindow({
+      content: '',
+      // maxWidth: 500
+    })
+    markers.forEach((marker) => {
+      marker.addListener('click', function() {
+        infoWindow.close()
+        infoWindow.setContent(`
+          <div class="card">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex">
+                <strong>Location:</strong>
+                <span class="ml-auto">${marker.lat},${marker.lng}</span>
+              </li>
+              <li class="list-group-item d-flex">
+                <strong>What 3 words:</strong>
+                <span class="ml-auto">${marker.what_3_words}</span>
+              </li>
+            </ul>
+            <div class="card-body d-flex justify-content-around">
+              <a href="<%= (is_anchor ||= false) ? anchors_url : anchor_groups_url %>/${marker.id}" class="btn btn-sm btn-info">Show</a>
+              <a href="${marker.w3w_url}" target="_blank"><img src="<%= image_url 'w3w.png' %>" alt="what 3 words icon" width="30" /></a>
+              <a href="${marker.gmap_url}" target="_blank"><img src="<%= image_url 'gmap.png' %>" alt="gmap icon" width="30" /></a>
+            </div>
+          </div>
+        `)
+        infoWindow.open(map, marker);
+      })
+    })
+  }
+  function autoZoom() {
+    map.fitBounds(bounds)
+    map.panToBounds(bounds)
+  }
+  initMap()
+</script>

@@ -14,4 +14,12 @@ class AnchorGroup < ApplicationRecord
   def distance_square_to(lat, lng)
     (latitude - lat).abs**2 + (longitude - lng).abs**2
   end
+
+  def what_3_words_url
+    "https://map.what3words.com/#{what_3_words}"
+  end
+
+  def google_map_url
+    "https://www.google.com/maps/search/#{latitude},#{longitude}"
+  end
 end
