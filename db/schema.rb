@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201153857) do
+ActiveRecord::Schema.define(version: 20180203015405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,10 +23,18 @@ ActiveRecord::Schema.define(version: 20180201153857) do
     t.string "old_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "label"
+    t.string "sublabel"
+    t.string "iso3"
+    t.integer "anchors_count", default: 0
+    t.index ["anchors_count"], name: "index_anchor_groups_on_anchors_count"
     t.index ["elevation"], name: "index_anchor_groups_on_elevation"
+    t.index ["iso3"], name: "index_anchor_groups_on_iso3"
+    t.index ["label"], name: "index_anchor_groups_on_label"
     t.index ["latitude"], name: "index_anchor_groups_on_latitude"
     t.index ["longitude"], name: "index_anchor_groups_on_longitude"
     t.index ["old_name"], name: "index_anchor_groups_on_old_name"
+    t.index ["sublabel"], name: "index_anchor_groups_on_sublabel"
     t.index ["what_3_words"], name: "index_anchor_groups_on_what_3_words"
   end
 
@@ -38,10 +46,16 @@ ActiveRecord::Schema.define(version: 20180201153857) do
     t.bigint "anchor_group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "label"
+    t.string "sublabel"
+    t.string "iso3"
     t.index ["anchor_group_id"], name: "index_anchors_on_anchor_group_id"
     t.index ["elevation"], name: "index_anchors_on_elevation"
+    t.index ["iso3"], name: "index_anchors_on_iso3"
+    t.index ["label"], name: "index_anchors_on_label"
     t.index ["latitude"], name: "index_anchors_on_latitude"
     t.index ["longitude"], name: "index_anchors_on_longitude"
+    t.index ["sublabel"], name: "index_anchors_on_sublabel"
     t.index ["what_3_words"], name: "index_anchors_on_what_3_words"
   end
 

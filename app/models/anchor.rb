@@ -1,5 +1,5 @@
 class Anchor < ApplicationRecord
-  belongs_to :anchor_group
+  belongs_to :anchor_group, counter_cache: true
 
   validates_presence_of :latitude, :longitude
   validates :latitude, numericality: { greater_than_or_equal_to:  -90, less_than_or_equal_to:  90 }
