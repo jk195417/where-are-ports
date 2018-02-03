@@ -40,6 +40,7 @@ class AnchorGroupsController < ApplicationController
 
   def set_anchor_group
     @anchor_group = AnchorGroup.find(params[:id])
+    @anchors_page = @anchor_group.anchors.page(params[:page]).per(10)
   end
 
   def anchor_group_params
