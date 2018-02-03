@@ -1,0 +1,15 @@
+<%= simple_form_for(@anchor_group) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :latitude %>
+    <%= f.input :longitude %>
+    <%= f.input :elevation %>
+    <%= f.input :what_3_words %>
+    <%= f.input :old_name %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

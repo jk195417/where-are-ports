@@ -1,0 +1,8 @@
+<div class="d-flex justify-content-center align-items-center">
+  <h1>Editing Anchor Group</h1>
+  <div class="ml-auto">
+    <%= link_to 'Show', @anchor_group, class: 'btn btn-info' %>
+    <%= link_to 'Back', anchor_groups_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
+<%= render 'form', anchor_group: @anchor_group %>

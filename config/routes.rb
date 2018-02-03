@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :anchor_groups
   root to: 'pages#index'
   resources :anchors
   devise_for :users

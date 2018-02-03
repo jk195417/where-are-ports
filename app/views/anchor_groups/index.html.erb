@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center align-items-center">
+  <h1>Anchors Groups <span class="small text-muted">total : <%= @anchor_groups_count %></span></h1>
+  <div class="ml-auto"><%= link_to 'New Anchor Groups', new_anchor_group_path, class: 'btn btn-primary' %></div>
+</div>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Elevation</th>
+        <th>What 3 words</th>
+        <th>Old name</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @anchor_groups.each do |anchor_group| %>
+        <tr>
+          <td><%= anchor_group.latitude %></td>
+          <td><%= anchor_group.longitude %></td>
+          <td><%= anchor_group.elevation %></td>
+          <td><%= anchor_group.what_3_words %></td>
+          <td><%= anchor_group.old_name %></td>
+          <td><%= link_to 'Show', anchor_group, class: 'btn btn-info' %></td>
+          <td><%= link_to 'Edit', edit_anchor_group_path(anchor_group), class: 'btn btn-primary' %></td>
+          <td><%= link_to 'Destroy', anchor_group, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-center">
+  <%= paginate @anchor_groups %>
+</div>
