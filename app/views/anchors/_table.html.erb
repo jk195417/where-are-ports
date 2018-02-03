@@ -1,0 +1,36 @@
+<div class="table-responsive small">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>ISO3</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Elevation</th>
+        <th>What 3 words</th>
+        <th>Label</th>
+        <th>Sublabel</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% anchors.each do |anchor| %>
+        <tr>
+          <td><%= anchor.iso3 %></td>
+          <td><%= anchor.latitude %></td>
+          <td><%= anchor.longitude %></td>
+          <td><%= anchor.elevation %></td>
+          <td><%= anchor.what_3_words %></td>
+          <td><%= anchor.label %></td>
+          <td><%= anchor.sublabel %></td>
+          <td><%= link_to 'Show', anchor, class: 'btn btn-info' %></td>
+          <td><%= link_to 'Edit', edit_anchor_path(anchor), class: 'btn btn-primary' %></td>
+          <td><%= link_to 'Destroy', anchor, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="d-flex justify-content-center">
+  <%= paginate anchors %>
+</div>
