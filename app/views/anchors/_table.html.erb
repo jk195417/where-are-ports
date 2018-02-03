@@ -26,10 +26,10 @@
             <%= anchor.what_3_words || 'unknown' %>
           <% end %></td>
           <td><%= anchor.label %><span class="small text-muted"><%= anchor.sublabel %></span></td>
-          <td><%= link_to 'Show', anchor, class: 'btn btn-info' %></td>
+          <td><%= link_to 'Show', anchor, class: 'btn btn-sm btn-info' %></td>
           <% if can? :manage, :anchor %>
-          <td><%= link_to 'Edit', edit_anchor_path(anchor), class: 'btn btn-primary' %></td>
-          <td><%= link_to 'Destroy', anchor, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= link_to 'Edit', edit_anchor_path(anchor), class: 'btn btn-sm btn-primary' %></td>
+          <td><%= link_to 'Destroy', anchor, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %></td>
           <% end %>
         </tr>
       <% end %>
@@ -37,5 +37,5 @@
   </table>
 </div>
 <div class="d-flex justify-content-center">
-  <%= paginate anchors %>
+  <%= paginate anchors, param_name: (param_name||=:page) %>
 </div>

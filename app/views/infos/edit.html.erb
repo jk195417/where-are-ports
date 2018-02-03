@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center">
+    <h1>Editing Info for <%= link_to 'AnchorGroup', anchor_group_path(@info.anchor_group), target: '_blank' %></h1>
+    <div class="ml-auto">
+      <%= link_to 'Show', @info, class: 'btn btn-info' %>
+      <%= link_to 'Back', :back, class: 'btn btn-secondary' %>
+    </div>
+  </div>
+  <%= render 'form', info: @info %>
+</div>

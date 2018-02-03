@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @info.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @info.type %>
+</p>
+
+<p>
+  <strong>Fishable:</strong>
+  <%= @info.fishable %>
+</p>
+
+<p>
+  <strong>Hardwares:</strong>
+  <%= @info.hardwares %>
+</p>
+
+<p>
+  <strong>Desc:</strong>
+  <%= @info.desc %>
+</p>
+
+<p>
+  <strong>Img url:</strong>
+  <%= @info.img_url %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @info.user %>
+</p>
+
+<p>
+  <strong>Anchor group:</strong>
+  <%= @info.anchor_group %>
+</p>
+
+<%= link_to 'Edit', edit_info_path(@info) %> |
+<%= link_to 'Back', infos_path %>

@@ -42,9 +42,23 @@
       </li>
     </ul>
     <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+        <h2>
+          User Contributed Infomations
+          <span class="small text-muted">total : <%= @anchor_group.infos_count %></span>
+        </h2>
+        <div class="ml-auto">
+          <%= link_to 'Contribute Info', new_info_path(anchor_group: @anchor_group), class: 'ml-auto btn btn-success' %>
+        </div>
+      </div>
+      <div class="card my-2">
+        <%= render 'infos/table', infos: @infos_page, param_name: :info_page %>
+      </div>
+    </div>
+    <div class="card-body">
       <h2>Anchors List <span class="small text-muted">total : <%= @anchor_group.anchors_count %></span></h2>
       <div class="card my-2">
-        <%= render 'anchors/table', anchors: @anchors_page %>
+        <%= render 'anchors/table', anchors: @anchors_page, param_name: :anchor_page %>
       </div>
     </div>
     <div class="card-body">

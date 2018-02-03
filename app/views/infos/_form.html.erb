@@ -1,0 +1,18 @@
+<%= simple_form_for(@info) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :port_type, collection: Info.port_types %>
+    <%= f.input :fishable, collection: Info.fishables %>
+    <%= f.input :hardwares, collection: Info.hardwares %>
+    <%= f.input :desc %>
+    <%# f.input :img_url %>
+    <%= f.input :user_id, as: :hidden  %>
+    <%= f.input :anchor_group_id, as: :hidden %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :infos, only: %i[new create] do
+    member do
+      post 'vote'
+    end
+  end
   resources :anchor_groups
   root to: 'pages#index'
   get 'map', to: 'pages#map'

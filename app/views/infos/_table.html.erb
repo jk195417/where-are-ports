@@ -1,0 +1,31 @@
+<div class="table-responsive small">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Fishable</th>
+        <th>Hardwares</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% infos.each do |info| %>
+        <tr>
+          <td><%= info.name %></td>
+          <td><%= info.port_type %></td>
+          <td><%= info.fishable %></td>
+          <td><%= info.hardwares %></td>
+          <td><%= info.desc %></td>
+          <td><%= link_to 'Vote', vote_info_path(info), method: :post, class: 'btn btn-sm btn-primary' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-center">
+  <%= paginate infos, param_name: (param_name||=:page) %>
+</div>

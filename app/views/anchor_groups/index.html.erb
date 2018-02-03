@@ -33,10 +33,10 @@
           <td><%= link_to anchor_group.what_3_words, anchor_group.what_3_words_url, target: :_blank %></td>
           <td><%= anchor_group.label %><span class="small text-muted"><%= anchor_group.sublabel %></span></td>
           <td><%= anchor_group.anchors_count %></td>
-          <td><%= link_to 'Show', anchor_group, class: 'btn btn-info' %></td>
+          <td><%= link_to 'Show', anchor_group, class: 'btn btn-sm btn-info' %></td>
           <% if can? :manage, :anchor_group %>
-          <td><%= link_to 'Edit', edit_anchor_group_path(anchor_group), class: 'btn btn-primary' %></td>
-          <td><%= link_to 'Destroy', anchor_group, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= link_to 'Edit', edit_anchor_group_path(anchor_group), class: 'btn btn-sm btn-primary' %></td>
+          <td><%= link_to 'Destroy', anchor_group, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %></td>
           <% end %>
         </tr>
       <% end %>
