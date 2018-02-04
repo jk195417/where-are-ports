@@ -3,7 +3,7 @@ class AnchorGroupsController < ApplicationController
   before_action :set_anchor_group, only: %i[show edit update destroy]
 
   def index
-    @anchor_groups = AnchorGroup.all.order(:id).page(params[:page])
+    @anchor_groups = AnchorGroup.all.order(elevation: :desc).page(params[:page])
     @anchor_groups_count = AnchorGroup.count
   end
 
@@ -42,7 +42,7 @@ class AnchorGroupsController < ApplicationController
   def set_anchor_group
     @anchor_group = AnchorGroup.find(params[:id])
     @anchors_page = @anchor_group.anchors.page(params[:anchor_page]).per(10)
-    @infos_page = @anchor_group.infos.page(params[:info_page]).per(10)
+    @infos_page = @anchor_group.infos.order(votes_count: :desc).page(params[:info_page]).per(10)
   end
 
   def anchor_group_params

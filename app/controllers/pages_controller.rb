@@ -4,8 +4,10 @@ class PagesController < ApplicationController
   end
 
   def map
-    @anchors = AnchorGroup.all
+    @anchor_groups= AnchorGroup.all
   end
 
-  def solutions; end
+  def solutions
+    @anchor_groups = AnchorGroup.all
+  end
 end

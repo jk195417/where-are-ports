@@ -21,6 +21,8 @@ class Info < ApplicationRecord
     rich_of_hardwares
   ]
 
+  has_many :votes, dependent: :destroy
+
   belongs_to :user, counter_cache: true
   belongs_to :anchor_group, counter_cache: true
 

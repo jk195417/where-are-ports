@@ -23,6 +23,7 @@
         lat: a.latitude,
         lng: a.longitude,
         what_3_words: a.what_3_words,
+        elevation: a.elevation,
         w3w_url: `https://map.what3words.com/${a.latitude},${a.longitude}`,
         gmap_url: `https://www.google.com/maps/search/${a.latitude},${a.longitude}`
       })
@@ -39,17 +40,26 @@
     markers.forEach((marker) => {
       marker.addListener('click', function() {
         infoWindow.close()
+        let warning = `
+        <li class="list-group-item list-group-item-warning">
+          Elevation is too deep (<= -500), maybe it is <strong>not</strong> a port.
+        </li>`
         infoWindow.setContent(`
           <div class="card">
             <ul class="list-group list-group-flush">
               <li class="list-group-item d-flex">
-                <strong>Location:</strong>
+                <strong>Location : </strong>
                 <span class="ml-auto">${marker.lat},${marker.lng}</span>
               </li>
               <li class="list-group-item d-flex">
-                <strong>What 3 words:</strong>
+                <strong>What 3 words : </strong>
                 <span class="ml-auto">${marker.what_3_words}</span>
               </li>
+              <li class="list-group-item d-flex">
+                <strong>Elevation : </strong>
+                <span class="ml-auto">${marker.elevation}</span>
+              </li>
+              ${(marker.elevation>-500) ? '' : warning }
             </ul>
             <div class="card-body d-flex justify-content-around">
               <a href="<%= (is_anchor ||= false) ? anchors_url : anchor_groups_url %>/${marker.id}" class="btn btn-sm btn-info">Show</a>

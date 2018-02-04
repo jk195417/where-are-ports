@@ -6,4 +6,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :contribute_infos, class_name: 'Info'
+  has_many :votes
 end

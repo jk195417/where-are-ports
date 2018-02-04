@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180203182356) do
+ActiveRecord::Schema.define(version: 20180203230525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,12 +72,14 @@ ActiveRecord::Schema.define(version: 20180203182356) do
     t.bigint "anchor_group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "votes_count", default: 0
     t.index ["anchor_group_id"], name: "index_infos_on_anchor_group_id"
     t.index ["fishable"], name: "index_infos_on_fishable"
     t.index ["hardwares"], name: "index_infos_on_hardwares"
     t.index ["name"], name: "index_infos_on_name"
     t.index ["port_type"], name: "index_infos_on_port_type"
     t.index ["user_id"], name: "index_infos_on_user_id"
+    t.index ["votes_count"], name: "index_infos_on_votes_count"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -104,9 +106,11 @@ ActiveRecord::Schema.define(version: 20180203182356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "infos_count", default: 0
+    t.integer "votes_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["infos_count"], name: "index_users_on_infos_count"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["votes_count"], name: "index_users_on_votes_count"
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
@@ -117,7 +121,19 @@ ActiveRecord::Schema.define(version: 20180203182356) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "info_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["info_id"], name: "index_votes_on_info_id"
+    t.index ["user_id", "info_id"], name: "index_votes_on_user_id_and_info_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "anchors", "anchor_groups"
   add_foreign_key "infos", "anchor_groups"
   add_foreign_key "infos", "users"
+  add_foreign_key "votes", "infos"
+  add_foreign_key "votes", "users"
 end

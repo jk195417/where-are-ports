@@ -4,7 +4,7 @@ class InfosController < ApplicationController
     flash[:warning] = 'Please login first'
     redirect_to new_user_session_url
   end
-  before_action :set_info, only: %i[show edit update destroy vote]
+  before_action :set_info, only: %i[show edit update destroy vote cancel_vote]
 
   def index
     @infos = Info.all
@@ -45,7 +45,23 @@ class InfosController < ApplicationController
   end
 
   def vote
-    #code
+    @info.votes.build(user: current_user)
+    if @info.save
+      flash[:notice] = 'You was successfully voted this info.'
+    else
+      flash[:danger] = 'Some things wrong.'
+    end
+    redirect_to @info.anchor_group
+  end
+
+  def cancel_vote
+    @vote = Vote.find_by! info: @info, user: current_user
+    if @vote.destroy
+      flash[:notice] = 'You was successfully canceled your vote to this info.'
+    else
+      flash[:danger] = 'Some things wrong.'
+    end
+    redirect_to @info.anchor_group
   end
 
   private

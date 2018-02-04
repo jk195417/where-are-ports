@@ -36,10 +36,11 @@
         <strong>Sublabel:</strong>
         <span class="ml-auto"><%= @anchor_group.sublabel %></span>
       </li>
-      <li class="list-group-item d-flex">
-        <strong>Old name</strong>
-        <span class="ml-auto"><%= @anchor_group.old_name %></span>
+      <% if @anchor_group.elevation <= -500 %>
+      <li class="list-group-item list-group-item-warning">
+        Elevation is too deep (<= -500), maybe it is <strong>not</strong> a port.
       </li>
+      <% end %>
     </ul>
     <div class="card-body">
       <div class="d-flex justify-content-center align-items-center">

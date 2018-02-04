@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :infos, only: %i[new create] do
     member do
       post 'vote'
+      post 'cancel_vote'
     end
   end
   resources :anchor_groups

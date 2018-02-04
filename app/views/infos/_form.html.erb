@@ -3,9 +3,9 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :port_type, collection: Info.port_types %>
-    <%= f.input :fishable, collection: Info.fishables %>
-    <%= f.input :hardwares, collection: Info.hardwares %>
+    <%= f.input :port_type, collection: Info.port_types.keys %>
+    <%= f.input :fishable, collection: Info.fishables.keys %>
+    <%= f.input :hardwares, collection: Info.hardwares.keys %>
     <%= f.input :desc %>
     <%# f.input :img_url %>
     <%= f.input :user_id, as: :hidden  %>

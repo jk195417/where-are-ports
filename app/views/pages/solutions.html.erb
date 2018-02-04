@@ -1,0 +1,265 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['google_map_key'] %>"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+<h1 class="text-center mt-2">Solution</h1>
+<div class="container">
+	<p>這是一個全球錨點的經度，緯度，海拔高度三維散佈圖。</p>
+	<p>透過資料可視化，我們可以明顯的觀察到資料集中有些錨點處於海拔高度很深的地方。</p>
+	<p>這種錨點不太可能是港口，而是在海上長期作業的大型漁船或是在進行石油探勘或是科學研究等作業。</p>
+	<form>
+	  <div class="form-group">
+	    <label>Country</label>
+	    <select class="form-control" onChange="select_iso3(this.value)">
+	      <option selected="selected" value="">All</option>
+	      <%= AnchorGroup.iso3.each do |iso| %>
+					<%= content_tag :option, iso, value: iso %>
+	      <% end %>
+	    </select>
+	  </div>
+	</form>
+  <div class="embed-responsive embed-responsive-21by9">
+    <div id="scatter" class="embed-responsive-item"></div>
+  </div>
+	<p>你可以點點看這些海拔為負的錨點，看看其衛星圖片是否為港口。</p>
+	<div class="embed-responsive embed-responsive-21by9">
+    <div id="map" class="embed-responsive-item"></div>
+  </div>
+	<p id="after-map-sent" class="d-none">是吧！幾乎所有海拔 -500 m 以下的錨點都處在離岸較遠的海上。</p>
+</div>
+
+<script type="text/javascript">
+  // init
+  const dom = document.getElementById("scatter");
+  const myChart = echarts.init(dom);
+  let app = {};
+
+  // the 3D chart json data
+  let data = <%= sanitize @anchor_groups.to_json %> ;
+  let config = app.config = {
+  	  xAxis3D: 'lat',
+  	  yAxis3D: 'lng',
+  	  zAxis3D: 'elevation',
+  	  color: 'elevation',
+  	  symbolSize: 'elevation',
+  };
+
+  var max = getMaxOnExtent(data);
+  // 頁面載入完執行
+
+  // Draw 3D chart
+  myChart.setOption({
+  	tooltip: {},
+  	visualMap: [{
+  		top: 10,
+  		calculable: true,
+  		dimension: 'elevation',
+  		max: max.color ,
+  		min:max.colormin/2,
+  		inRange: {
+  			color: ['#BA55D3','#BA55D3','#BA55D3','#BA55D3','#BA55D3', '#0b9df0', '#00fea8', '#00ff0d', '#f5f811', '#f09a09', '#fe0300']
+  		},
+  		textStyle: {
+  			color: '#000'
+  		}
+  	}],
+  	xAxis3D: {
+  		name: config.xAxis3D,
+  	},
+  	yAxis3D: {
+  		name: config.yAxis3D,
+  	},
+  	zAxis3D: {
+  		name: config.zAxis3D,
+  	},
+  	grid3D: {
+  		axisLine: {
+  			lineStyle: {
+  				color: '#666',
+  				opacity: 0.35
+  			}
+  		},
+  		axisPointer: {
+  			lineStyle: {
+  				color: '#ffbd67'
+  			}
+  		},
+  		splitLine: {
+  			show: true,
+  			lineStyle: {
+  				// 使用深浅的间隔色
+  				color: ['#000','#666'],
+  				opacity: 0.35
+  			}
+  		},
+  	},
+  	series: [{
+  		type: 'scatter3D',
+  		dimensions: [
+  			config.xAxis3D,
+  			config.yAxis3D,
+  			config.zAxis3D,
+  			'what3words',
+  			'group',
+  			'iso3'
+  		],
+  		data: data.map( d => {
+  			return [
+  				d['latitude'],
+  				d['longitude'],
+  				d['elevation'],
+  				d['what_3_words'],
+  				d['anchor_group_id'],
+  				d['iso3']
+  			];
+  		}),
+  		symbolSize: 20,
+  		itemStyle: {
+  			borderWidth: 1,
+  			borderColor: 'rgba(255,255,255,0.8)'
+  		},
+  		emphasis: {
+  			itemStyle: {
+  				color: '#fff'
+  			}
+  		}
+  	}]
+  })
+  function getMaxOnExtent(data) {
+  		var colorMax = -Infinity
+  		var colorMin = Infinity
+  		var symbolSizeMax = -Infinity
+
+  		for (var i = 1; i < data.length-1; i++) {
+  			var item = data[i]
+  			var colorVal = item['elevation']
+  			var colorValmin = item['elevation']
+  			var symbolSizeVal = item['elevation']
+  			colorMax = Math.max(colorVal, colorMax) // find next bigger color
+  			colorMin = Math.min(colorValmin, colorMin) // find next smaller color
+  			symbolSizeMax = Math.max(symbolSizeVal, symbolSizeMax)
+  		}
+  		let result = {
+  			color : colorMax,
+  			colormin : colorMin,
+  			symbolSize : symbolSizeMax
+  		}
+  		return result
+  }
+
+  function initMap(lat, lng) {
+		let bounds = new google.maps.LatLngBounds()
+		let location = new google.maps.LatLng(lat, lng)
+		bounds.extend(location)
+    const map = new google.maps.Map(document.getElementById('map'), {
+			center: location,
+  		mapTypeId: 'satellite'
+    })
+    let marker = new google.maps.Marker({
+			position: location,
+			map: map
+    })
+		map.fitBounds(bounds)
+    map.panToBounds(bounds)
+  }
+
+  // click event
+  myChart.on('click', function (params) {
+  	// 劃出此點經緯度所對應的google地圖
+  	initMap(params.value[0], params.value[1]);
+		$('#after-map-sent').removeClass('d-none');
+  })
+</script>
+<script>
+  function select_iso3(iso3){
+  	var data_with_iso3 = data;
+  	if (iso3.length >0) {
+  		data_with_iso3 = []
+  		data.forEach((i) => {
+  				if (i['iso3'] === iso3) {
+  					data_with_iso3.push(i)
+  				}
+  		})
+  	}
+  	var max = getMaxOnExtent(data);
+  	myChart.setOption({
+  		tooltip: {},
+  		visualMap: [{
+        top: 10,
+        calculable: true,
+        dimension: 'elevation',
+        max: max.color ,
+  				min:max.colormin/2,
+        inRange: {
+            color: ['#BA55D3','#BA55D3','#BA55D3','#BA55D3','#BA55D3', '#0b9df0', '#00fea8', '#00ff0d', '#f5f811', '#f09a09', '#fe0300']
+        },
+        textStyle: {
+            color: '#000'
+        }
+      }],
+  		xAxis3D: {
+  			name: config.xAxis3D,
+  		},
+  		yAxis3D: {
+  			name: config.yAxis3D,
+  		},
+  		zAxis3D: {
+  			name: config.zAxis3D,
+  		},
+  		grid3D: {
+  				axisLine: {
+  					lineStyle: {
+  						color: '#666',
+  						opacity: 0.35
+  					}
+  				},
+  				axisPointer: {
+  					lineStyle: {
+  						color: '#ffbd67'
+  					}
+  				},
+  				splitLine: {
+  					show: true,
+  					lineStyle: {
+  						// 使用深浅的间隔色
+  						color: ['#000','#666'],
+  						opacity: 0.35
+  					}
+  				}
+  			},
+  		series: [{
+  			type: 'scatter3D',
+  			dimensions: [
+  				config.xAxis3D,
+  				config.yAxis3D,
+  				config.zAxis3D,
+  				'what3words',
+  				'group',
+  				'iso3'
+  			],
+  			data: data_with_iso3.map(d=>{
+  				return [
+  					d['latitude'],
+  					d['longitude'],
+  					d['elevation'],
+  					d['what_3_words'],
+  					d['anchor_group_id']
+  				];
+  			}),
+  			symbolSize: 20,
+  			itemStyle: {
+  				borderWidth: 1,
+  				borderColor: 'rgba(255,255,255,0.8)'
+  			},
+  			emphasis: {
+  				itemStyle: {
+  					color: '#fff'
+  				}
+  			}
+  		}]
+  	})
+  }
+</script>

@@ -2,6 +2,7 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
+        <th>Votes</th>
         <th>Name</th>
         <th>Type</th>
         <th>Fishable</th>
@@ -14,12 +15,16 @@
     <tbody>
       <% infos.each do |info| %>
         <tr>
+          <td><%= info.votes_count %></td>
           <td><%= info.name %></td>
           <td><%= info.port_type %></td>
           <td><%= info.fishable %></td>
           <td><%= info.hardwares %></td>
           <td><%= info.desc %></td>
-          <td><%= link_to 'Vote', vote_info_path(info), method: :post, class: 'btn btn-sm btn-primary' %></td>
+          <td>
+            <%= link_to 'Vote', vote_info_path(info), method: :post, class: 'btn btn-sm btn-primary' %>
+            <%= link_to 'Cancel Vote', cancel_vote_info_path(info), method: :post, class: 'btn btn-sm btn-danger' %>
+          </td>
         </tr>
       <% end %>
     </tbody>
