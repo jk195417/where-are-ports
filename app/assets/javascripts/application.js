@@ -14,3 +14,7 @@
 //= require jquery/dist/jquery
 //= require popper.js/dist/umd/popper
 //= require bootstrap/dist/js/bootstrap
+//= require echarts/echarts.min.js
+//= require echarts/echarts-gl.min.js
+//= require echarts/extension/dataTool.min.js
+//= require echarts/extension/bmap.min.js
